@@ -1,13 +1,10 @@
 import { ChatGroq } from "@langchain/groq";
 import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import config from "./config/envConfig";
-import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import path from "path";
 import {
-  downloadFile,
   readFileRaw,
-  readFileStream,
 } from "./helpers/file-streamer";
 import { ChatOpenAI } from "@langchain/openai";
 
