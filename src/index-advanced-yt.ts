@@ -2,6 +2,7 @@ import { ChatGroq } from "@langchain/groq";
 import config from "./config/envConfig";
 import { YoutubeLoader } from "@langchain/community/document_loaders/web/youtube";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
+import * as path from "path";
 
 // tell langchain to use groq
 const model = new ChatGroq({
@@ -71,6 +72,7 @@ const processYouTubeVideo = async (url: string) => {
   try {
     const youtubeUrl =
       "https://www.youtube.com/watch?v=0QzopZ78w9M";
+
     const summary = await processYouTubeVideo(youtubeUrl);
 
     console.log(summary);
