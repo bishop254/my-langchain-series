@@ -23,7 +23,6 @@ const gptModel = new ChatOpenAI({
   temperature: 0,
   maxRetries: 2,
   apiKey: config.GPT_API_KEY,
-  // timeout: 30,
 });
 
 const useModel: any = async (prompt: string) => {
