@@ -3,9 +3,7 @@ import { ChatGoogleGenerativeAI } from "@langchain/google-genai";
 import config from "./config/envConfig";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import path from "path";
-import {
-  readFileRaw,
-} from "./helpers/file-streamer";
+import { readFileRaw } from "./helpers/file-streamer";
 import { ChatOpenAI } from "@langchain/openai";
 
 // tell langchain to use groq
@@ -38,20 +36,16 @@ const useModel: any = async (prompt: string) => {
   const resGemini = await geminiModel.invoke(prompt);
   if (resGemini) return resGemini;
 
-
   return undefined;
 };
 
-const processYouTubeVideo = async (url: string) => {
+const processDocument = async (url: string) => {
   try {
-    const fileUrl =
-      "https://collateral-library-production.s3.amazonaws.com/uploads/asset_file/attachment/17529/BNG-UL19-Technical-Documentation-EN-081919.pdf";
     const outputFilePath = path.join(
       process.cwd(),
-      "tazama-design-principles.pdf"
+      "tazama-design-principles.pdf",
     );
 
-    // await downloadFile(fileUrl, outputFilePath);
     const docs = await readFileRaw(outputFilePath);
 
     const splitter = new RecursiveCharacterTextSplitter({
@@ -76,14 +70,12 @@ const processYouTubeVideo = async (url: string) => {
     }
 
     const finalPrompt = `
-    You have been given several summaries from different parts of a technical document for a fraud detection program. 
-    Please syntesize them to a single, well written and consice paragraph that captures the entire document.
-    ---
-    INDIVIDUAL SUMMARIES:
-    ${chunkSummaries.join("\n\n")}
-    ---
-    FINAL SUMMARY:
-    `;
+    You are an expert Q&A assistant. Use the following pieces of context from a document to answer the question at the end.
+    If you don't know the answer from the provided context, just say that you don't know. Do not make up an answer.
+ ----------------
+    CONTEXT: {context}
+    ----------------
+    QUESTION: {query}`;
 
     const response = await useModel(finalPrompt);
     return response.content;
@@ -95,9 +87,10 @@ const processYouTubeVideo = async (url: string) => {
 
 (async () => {
   try {
-    const youtubeUrl = "https://www.youtube.com/watch?v=0QzopZ78w9M";
+    const docUrl =
+      "https://collateral-library-production.s3.amazonaws.com/uploads/asset_file/attachment/17529/BNG-UL19-Technical-Documentation-EN-081919.pdf";
 
-    const summary = await processYouTubeVideo(youtubeUrl);
+    const summary = await processDocument(docUrl);
 
     console.log(summary);
   } catch (error) {

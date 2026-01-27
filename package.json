@@ -15,8 +15,12 @@
     "@langchain/core": "^1.1.12",
     "@langchain/google-genai": "^2.1.7",
     "@langchain/groq": "^1.0.2",
+    "@langchain/langgraph": "^1.1.2",
+    "@langchain/ollama": "^1.2.1",
     "@langchain/openai": "^1.2.1",
+    "@langchain/tavily": "^1.2.0",
     "@langchain/textsplitters": "^1.0.1",
+    "axios": "^1.13.3",
     "pdf-parse": "^1.1.1",
     "youtubei.js": "^16.0.1",
     "zod": "^3.25.76"
